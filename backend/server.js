@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
-var data = fs.readFileSync('./test.csv').toString();
+var data = JSON.parse(fs.readFileSync('./test.csv').toString());
 var app = express();
 app.use(bodyParser.json({extended: true}));
 
