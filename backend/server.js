@@ -10,15 +10,21 @@ app.use(bodyParser.json({extended: true}));
 
 console.log("server starting");
 
+/*
+
+*/
+
 app.get('/test',function(req,res){
 	console.log("got here");
 	return res.status(200).json({"message": "connected"});
 });
 
 app.post('/get_route',function(req,res){
-    console.log('get route called')
+    console.log('get route called');
+    //so we can test frontend locally
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({'points': rawData['data'][0].slice(0,5)});
+    //expect data to be formatted [lat,long,weight]
+    res.status(200).json({'points': rawData['data'].slice(0,5)});
 });
 
 app.listen(9190);
