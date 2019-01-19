@@ -3,8 +3,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
-var data = fs.readFileSync('./test.csv').toString();
-data = JSON.parse(data);
+var rawData = fs.readFileSync('./test.csv').toString();
+rawData = JSON.parse(rawData);
 var app = express();
 app.use(bodyParser.json({extended: true}));
 
@@ -16,8 +16,8 @@ app.get('/test',function(req,res){
 });
 
 app.post('/get_route',function(req,res){
-    console.log(data)
-    res.status(200).json({'points': data});
+    console.log('get route called')
+    res.status(200).json({'points': rawData[0].slice(0,5)});
 });
 
 app.listen(9190);
