@@ -17,6 +17,7 @@ app.get('/test',function(req,res){
 
 app.post('/get_route',function(req,res){
     console.log('get route called')
+    res.set('Access-Control-Allow-Origin', '*');
     res.status(200).json({'points': rawData['data'][0].slice(0,5)});
 });
 
