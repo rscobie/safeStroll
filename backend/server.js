@@ -17,7 +17,7 @@ app.get('/test',function(req,res){
 
 app.post('/get_route',function(req,res){
     console.log('get route called')
-    res.status(200).json({'points': rawData[0].slice(0,5)});
+    res.status(200).json({'points': rawData['data'][0].slice(0,5)});
 });
 
 app.listen(9190);
