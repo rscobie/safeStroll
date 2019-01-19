@@ -16,9 +16,9 @@ app.get('/test',function(req,res){
 
 app.post('/get_route',function(req,res){
     console.log(data)
-    app.status(200).json({'points': data});
+    res.status(200).json({'points': data});
 });
 
-app.listen(9190);//TODO: make this come from a file
+app.listen(9190);
 
 module.exports = app;
