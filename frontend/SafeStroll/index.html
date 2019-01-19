@@ -55,12 +55,30 @@
                         L.latLng(32.243745, -110.954520)
                     ]
                 }).addTo(mymap);
-    
+                
+                $origination = $("#origination");
+                $destination = $("#destination");
+                $button = $("#button")
+                $button.click(function(){
+                    console.log('clicked')
+                    var origin = $origination.attr('data');
+                    var dest = $destination.attr('data');
+
+                    //TODO: use geosearch to find lat/long based off of input
+                    var requestData = {'origin': [0, 0], 'dest': [0, 0]}
+                    var query = $.ajax({
+                        data: requestData,
+                        contentType: 'application/json'
+                    }).always(function(data){
+                        console.log(data.responseText);
+                    });
+                })
+
                 </script>   
         </section>
 
         <section id="fields">
-            <form>
+            <!--<form> -->
                 <div class="form-group">
                   <label for="origination">Origination</label>
                   <input type="text" class="form-control" id="origination" aria-describedby="" placeholder="Enter current location">
@@ -70,7 +88,7 @@
                   <input type="text" class="form-control" id="destination" placeholder="Enter destination">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+              <!--</form>-->
         </section>
 
 
