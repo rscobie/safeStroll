@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
-var rawData = fs.readFileSync('./test.csv').toString().replace(/'/g,'"');
+var rawData = fs.readFileSync('../data/crimedata.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
 var app = express();
 app.use(bodyParser.json({extended: true}));
@@ -21,6 +21,7 @@ app.get('/test',function(req,res){
 
 app.post('/get_route',function(req,res){
     console.log('get route called');
+    console.log(req.body);
     //so we can test frontend locally
     res.set('Access-Control-Allow-Origin', '*');
     //expect data to be formatted [lat,long,weight]
