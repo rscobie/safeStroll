@@ -6,7 +6,7 @@ var request = require('request');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
 var KdTreePkg = require('kd-tree-javascript');
-kdTree();//execute this
+kdTreePkg();//execute this
 
 //generate graph and kd-tree here
 var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
