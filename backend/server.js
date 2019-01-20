@@ -357,6 +357,15 @@ function dijkstraSearch(origin, destination, layerList) {
 
 	origin.distance = 0
     
+    lat_min = Math.min(origin.lat, destination.lat)
+    lat_max = Math.max(origin.lat, destination.lat)
+
+    long_min = Math.min(origin.long, destination.long)
+    long_max = Math.max(origin.long, destination.long)
+
+    mins_maxs = [lat_min, lat_max, long_min, long_max]
+
+
     maxDepth = 1000
     currentDepth = 0
 
@@ -371,7 +380,7 @@ function dijkstraSearch(origin, destination, layerList) {
 
 		while(currProcessQueue.length != 0) {
 			currNode = currProcessQueue.pop()
-			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue)
+			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs)
 		}
 
 		currProcessQueue = nextProcessQueue
@@ -437,7 +446,7 @@ function getPath(originNode, destinationNode) {
 }
 
 // checks all adjacent nodes and update values if necessary
-function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
+function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs) {
 
 	//console.log("\n\n")
 
@@ -467,8 +476,14 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
 		//console.log(tempDistance)
 		if(currNode.edges[i].distance > tempDistance) {
             currNode.edges[i].distance = tempDistance
-            nextProcessQueue.push(currNode.edges[i])
-		}
+
+            // check if within square
+            if((mins_maxs[0] < currNode.edges[i].lat < mins_maxs[1]) && (mins_maxs[2] < currNode.edges[i].long < mins_maxs[3])) {
+                nextProcessQueue.push(currNode.edges[i])
+            }
+        
+        
+            }
 
 		// check if node is already in processedNodes
 		notProcessed = true
