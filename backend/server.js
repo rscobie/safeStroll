@@ -478,7 +478,7 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_max
             currNode.edges[i].distance = tempDistance
 
             // check if within square
-            if((mins_maxs[0] < currNode.edges[i].lat < mins_maxs[1]) && (mins_maxs[2] < currNode.edges[i].long < mins_maxs[3])) {
+            if((mins_maxs[0]-0.0003*3 < currNode.edges[i].lat < mins_maxs[1]+0.0003*3) && (mins_maxs[2]-0.0003*3 < currNode.edges[i].long < mins_maxs[3]+0.0003*3)) {
                 nextProcessQueue.push(currNode.edges[i])
             }
         
