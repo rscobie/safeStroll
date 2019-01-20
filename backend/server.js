@@ -11,13 +11,17 @@ app.use(bodyParser.json({extended: true}));
 console.log("server starting");
 
 /*
-
+endpoint to verify server actually up
 */
 
 app.get('/test',function(req,res){
 	console.log("got here");
 	return res.status(200).json({"message": "connected"});
 });
+
+/*
+endpoint to send data to client
+*/
 
 app.post('/get_route',function(req,res){
     console.log('get route called');
@@ -26,6 +30,13 @@ app.post('/get_route',function(req,res){
     res.set('Access-Control-Allow-Origin', '*');
     //expect data to be formatted [lat,long,weight]
     res.status(200).json({'points': rawData['data'].slice(0,5)});
+});
+
+/*
+endpoint to serve frontent
+*/
+app.get('/app',function(req,res){
+    res.render('../frontend/index.html');
 });
 
 app.listen(9190);
