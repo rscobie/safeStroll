@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
+var requirejs = require('requirejs');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
 
@@ -41,7 +42,7 @@ app.post('/get_route',function(req,res){
 });
 
 
-require('kd-tree-javascript', function(ubilabs){
+requirejs(['node_modules/kd-tree-javascript/kdTree.js'], function (ubilabs) {
 
     graphList = generateGraphList(rawData.data);
     pointTree = generateTree(graphList, ubilabs);
