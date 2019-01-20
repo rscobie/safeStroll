@@ -162,6 +162,8 @@ layerList is list of keys that we care about for json
 function dijkstraSearch(originRef, destinationRef, layerList){
     //TODO Noah will do this
     console.log('dijkstraSearch');
+    console.log(originRef);
+    console.log(destinationRef);
     return lerp(originRef, destinationRef, {}, 1);
 }
 
