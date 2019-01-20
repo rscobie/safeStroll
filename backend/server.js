@@ -466,7 +466,8 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
 		//console.log(currNode.edges[i])
 		//console.log(tempDistance)
 		if(currNode.edges[i].distance > tempDistance) {
-			currNode.edges[i].distance = tempDistance
+            currNode.edges[i].distance = tempDistance
+            nextProcessQueue.push(currNode.edges[i])
 		}
 
 		// check if node is already in processedNodes
