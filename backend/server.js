@@ -136,7 +136,6 @@ turns out kdTree package has this built in
 */
 
 function adjascentPoints(point){
-    console.log('adjascent points')
     return pointTree.nearest(point,4);
 }
 
