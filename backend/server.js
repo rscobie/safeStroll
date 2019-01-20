@@ -170,6 +170,7 @@ function dijkstraSearch(originRef, destinationRef, layerList){
 /*
 placeholder while we work on searching
 resolution is points per 0.0003 degree (one grid)
+jk just gonna do two points
 */
 function lerp(originRef, destinationRef, layerList, resolution){
     console.log('lerp');
