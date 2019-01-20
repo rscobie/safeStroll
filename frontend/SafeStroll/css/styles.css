@@ -37,6 +37,11 @@ body {
 
  #submit-button {
     margin:10px auto;
-    display:block;
+ }
+
+ #loading {
+    font-size:32px;
+    vertical-align: middle;
+    visibility: hidden;
     
  }
