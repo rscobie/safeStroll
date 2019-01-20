@@ -14,3 +14,8 @@ http://gisdata.tucsonaz.gov/datasets/streetlights-city-of-tucson-open-data
 Bicycle traffic incident dataset:
 https://azbikelaw.org/crashmap-data/
 
+Instructions for set-up:
+- Runs on node.js
+- Install the appropriate packages in server.js to get it to run properly
+- Once that is done you can start that by typing in node server while in the backend
+- Use port 9190
