@@ -86,8 +86,7 @@ connect nodes into grid
 function generateGraph(graphList){
     for(node of graphList){
         for(point of adjascentPoints(node)){
-            console.log(point);
-            node.edges.push(point);
+            node.edges.push(point[0]);
         }
     }
 }
