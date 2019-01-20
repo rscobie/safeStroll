@@ -43,8 +43,8 @@ app.post('/get_route',function(req,res){
     var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
 
     //expect data to be formatted [lat,long,weight]
-    res.status(200).json({'points': [[32,-110,1],[,32.1,-110,0.1]]});
-    //res.status(200).json(safestRoute(origin, destination, graphList));
+    //res.status(200).json({'points': [[32,-110,1],[,32.1,-110,0.1]]});
+    res.status(200).json(safestRoute(origin, destination, graphList));
 });
 
 /*
