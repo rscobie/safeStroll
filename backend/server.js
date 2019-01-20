@@ -142,6 +142,8 @@ function adjascentPoints(point){
             nearList.pop(node);
         }
     }
+
+    return nearList;
 }
 
 /*
