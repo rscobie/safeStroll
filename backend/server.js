@@ -36,7 +36,7 @@ app.post('/get_route',function(req,res){
 /*
 endpoint to serve frontent
 */
-app.get('/app',function(req,res){
+app.get('/app',function(req,res,next){
     res.render('index', {'title': 'strollSafe'});
 });
 
