@@ -416,7 +416,10 @@ function getPath(originNode, destinationNode) {
         // iterate through adjacent nodes
 		for(node of currNode.edges) {
 
-			// check if the nodes distance + current weight == currNode distance
+            console.log(node)
+            // check if the nodes distance + current weight == currNode distance
+            console.log("node.distance+currNode.weight: " + (node.distance+currNode.weight))
+            console.log("currNode.distance: " + (currNode.distance))
 			if((node.distance+currNode.weight) == currNode.distance) {
 				currNode = node
 				path.push(currNode)
