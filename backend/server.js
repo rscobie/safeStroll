@@ -136,7 +136,12 @@ turns out kdTree package has this built in
 */
 
 function adjascentPoints(point){
-    return pointTree.nearest(point,4);
+    var nearList = pointTree.nearest(point,5);
+    for(node of nearList){
+        if(node == point){
+            nearList.pop(node);
+        }
+    }
 }
 
 /*
