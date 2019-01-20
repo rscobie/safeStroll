@@ -378,7 +378,8 @@ function dijkstraSearch(origin, destination, layerList) {
 
 	//console.log(allNodes)
 	//console.log(path)
-	//console.log(coordsList)
+    //console.log(coordsList)
+    console.log('done');
 
 }
 
