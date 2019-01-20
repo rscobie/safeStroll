@@ -7,7 +7,8 @@ var rawData = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/
 rawData = JSON.parse(rawData);
 var app = express();
 app.use(bodyParser.json({extended: true}));
-
+app.set('views', '../frontend/SafeStroll');
+app.engine('html');
 console.log("server starting");
 
 /*
@@ -36,7 +37,7 @@ app.post('/get_route',function(req,res){
 endpoint to serve frontent
 */
 app.get('/app',function(req,res){
-    res.sendFile('/home/rory/safeStroll/frontend/SafeStroll/index.html');
+    res.render('index.html');
 });
 
 app.listen(9190);
