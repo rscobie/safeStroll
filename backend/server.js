@@ -6,50 +6,46 @@ var request = require('request');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
 
-var rawData;
+//generate graph and kd-tree here
+var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
+rawData = JSON.parse(rawData);
 var graphList;
 var pointTree;
-var app;
+var app = express();
+app.use(bodyParser.json({extended: true}));
+app.use('/app', express.static('../frontend/SafeStroll'));
+
+/*
+endpoint to verify server actually up
+*/
+
+app.get('/test',function(req,res){
+    console.log("got here");
+    return res.status(200).json({"message": "connected"});
+});
+
+/*
+endpoint to send data to client
+*/
+
+app.post('/get_route',function(req,res){
+    console.log('get route called');
+    console.log(req.body);
+    var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
+    var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
+
+    //so we can test frontend locally
+    res.set('Access-Control-Allow-Origin', '*');
+    //expect data to be formatted [lat,long,weight]
+    res.status(200).json(safestRoute(origin, destination, dataLayers));
+});
+
 
 require('kd-tree-javascript', function(ubilabs){
-    //generate graph and kd-tree here
-    rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
-    rawData = JSON.parse(rawData);
-
-    app = express();
-    app.use(bodyParser.json({extended: true}));
-    app.use('/app', express.static('../frontend/SafeStroll'));
 
     graphList = generateGraphList(rawData.data);
     pointTree = generateTree(graphList, ubilabs);
     generateGraph(graphList);
-
-    /*
-    endpoint to verify server actually up
-    */
-
-    app.get('/test',function(req,res){
-        console.log("got here");
-        return res.status(200).json({"message": "connected"});
-    });
-
-    /*
-    endpoint to send data to client
-    */
-
-    app.post('/get_route',function(req,res){
-        console.log('get route called');
-        console.log(req.body);
-        var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
-        var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
-
-        //so we can test frontend locally
-        res.set('Access-Control-Allow-Origin', '*');
-        //expect data to be formatted [lat,long,weight]
-        res.status(200).json(safestRoute(origin, destination, dataLayers));
-    });
-
-    app.listen(9190);
 
     console.log("server starting");
 });
@@ -166,5 +162,7 @@ function lerp(originRef, destinationRef, layerList, resolution){
     }*/
     return returnList;
 }
+
+app.listen(9190);
 
 module.exports = app;
