@@ -365,6 +365,8 @@ function dijkstraSearch(origin, destination, layerList) {
 
 	while((currProcessQueue.length != 0) && (currentDepth<maxDepth)) {
         console.log(currentDepth)
+
+
 		while(currProcessQueue.length != 0) {
 			currNode = currProcessQueue.pop()
 			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue)
@@ -376,6 +378,10 @@ function dijkstraSearch(origin, destination, layerList) {
         currentDepth++;
 	}
 
+    
+    if(currProcessQueue.length == 0) {
+        console.log("currProcessQueue.length == 0")
+    }
 
 	path = getPath(origin, destination)
 
@@ -403,7 +409,11 @@ function getPath(originNode, destinationNode) {
 	path = [currNode]
 
 	while(currNode != originNode) {
-		// iterate through adjacent nodes
+
+        console.log(path.length)
+
+
+        // iterate through adjacent nodes
 		for(node of currNode.edges) {
 
 			// check if the nodes distance + current weight == currNode distance
