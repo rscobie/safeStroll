@@ -124,7 +124,7 @@ Node for graph prototype
 function Node(data){
     this.lat = data.latitude;
     this.long = data.longitude;
-    this.this.weights = {
+    this.weights = {
         crimeweight: data.crimeweight, 
         lightweight: data.lightweight
     };
