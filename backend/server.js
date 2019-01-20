@@ -396,7 +396,10 @@ function dijkstraSearch(origin, destination, layerList) {
 
 	path = getPath(origin, destination)
 
-	coordsList = pathToCoords(path)
+    coordsList = pathToCoords(path)
+    
+    console.log(coordsList)
+
 
 	//console.log(allNodes)
 	//console.log(path)
