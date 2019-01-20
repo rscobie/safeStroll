@@ -84,7 +84,7 @@ generates kd tree that stores references to nodes in graph based off of
 latitude/longitude
 */
 
-function generateTree(nodeList){
+function generateTree(nodeList, ubilabs){
     returnTree = new ubilabs.kdTree(nodeList, function(pointA, pointB){
         //don't care about sqrt since it's comparative anyway
         return Math.pow(pointA.lat - pointB.lat, 2) +  Math.pow(pointA.long - pointB.long, 2);
