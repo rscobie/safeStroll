@@ -373,7 +373,7 @@ function dijkstraSearch(origin, destination, layerList) {
 		currProcessQueue = nextProcessQueue
         nextProcessQueue = []
         
-        maxDepth++;
+        currentDepth++;
 	}
 
 
