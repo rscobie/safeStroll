@@ -435,7 +435,7 @@ function getPath(originNode, destinationNode) {
             // check if the nodes distance + current weight == currNode distance
             console.log("node.distance+currNode.weight: " + (node.distance+currNode.weight))
             console.log("currNode.distance: " + (currNode.distance))
-			if((node.distance+currNode.weights['crimeweight']) == currNode.distance) {
+			if((node.distance+currNode.weights['crimeweight']+2) == currNode.distance) {
 				currNode = node
 				path.push(currNode)
 				break
@@ -475,7 +475,7 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_max
 	for (i = 0; i < currNode.edges.length; i++) { 
 		
 		// update the distance of adjacent nodes
-		tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] //TODO: add modification based off of layerList
+		tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] + 2 //TODO: add modification based off of layerList
 		//console.log(currNode.edges[i])
 		//console.log(tempDistance)
 		if(currNode.edges[i].distance > tempDistance) {
