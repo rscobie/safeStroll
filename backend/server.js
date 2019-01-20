@@ -8,13 +8,20 @@ var requirejs = require('requirejs');
 //no need to reinvent the wheel
 
 //generate graph and kd-tree here
-var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
+var rawData = fs.readFileSync('../data/bikelightcrimedata.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
 var graphList;
 var pointTree;
 var app = express();
 app.use(bodyParser.json({extended: true}));
 app.use('/app', express.static('../frontend/SafeStroll'));
+
+//enable CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 /*
 endpoint to verify server actually up
@@ -31,16 +38,13 @@ endpoint to send data to client
 
 app.post('/get_route',function(req,res){
     console.log('get route called');
-    console.log(req);
     console.log(JSON.stringify(req.body));
     var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
     var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
 
-    //so we can test frontend locally
-    res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json(req.body);
     //expect data to be formatted [lat,long,weight]
-    //res.status(200).json(safestRoute(origin, destination, graphList));
+    //res.status(200).json({'points': [[32,-110,1],[,32.1,-110,0.1]]});
+    res.status(200).json(safestRoute(origin, destination, graphList));
 });
 
 /*
@@ -82,7 +86,7 @@ connect nodes into grid
 function generateGraph(graphList){
     for(node of graphList){
         for(point of adjascentPoints(node)){
-            node.edges.push(point);
+            node.edges.push(point[0]);
         }
     }
 }
@@ -108,7 +112,12 @@ calculates route to take
 */
 
 function safestRoute(origin, destination, layerList){
-    return {"points": dijkstraSearch(nearestNode(origin), nearestNode(destination), layerList)};
+    console.log('safestRoute');
+    var nearestOrigin = nearestNode(origin);
+    console.log(nearestOrigin)
+    var nearestDestination = nearestNode(destination)
+    console.log(nearestDestination)
+    return JSON.stringify({"points": dijkstraSearch(nearestOrigin, nearestDestination, layerList)});
 }
 
 /*
@@ -117,7 +126,8 @@ turns out kdTree package has this built in
 */
 
 function nearestNode(point){
-    return pointTree.nearest(point,1);
+    console.log('nearestNode');
+    return pointTree.nearest(point,1)[0][0];
 }
 
 /*
@@ -151,14 +161,19 @@ layerList is list of keys that we care about for json
 */
 function dijkstraSearch(originRef, destinationRef, layerList){
     //TODO Noah will do this
+    console.log('dijkstraSearch');
+    console.log(originRef);
+    console.log(destinationRef);
     return lerp(originRef, destinationRef, {}, 1);
 }
 
 /*
 placeholder while we work on searching
 resolution is points per 0.0003 degree (one grid)
+jk just gonna do two points
 */
 function lerp(originRef, destinationRef, layerList, resolution){
+    console.log('lerp');
     var returnList = [[originRef.lat, originRef.long],[destinationRef.lat, destinationRef.long]];
     /*var distance = Math.sqrt(Math.abs(Math.pow(originRef.lat - destinationRef.lat, 2) +  Math.pow(originRef.long - destinationRef.long, 2)))
     var i = 0;
@@ -167,6 +182,7 @@ function lerp(originRef, destinationRef, layerList, resolution){
         let tempNode = nearestNode()
         returnList.push([,,]);
     }*/
+    console.log(returnList);
     return returnList;
 }
 
