@@ -8,7 +8,7 @@ var requirejs = require('requirejs');
 //no need to reinvent the wheel
 
 //generate graph and kd-tree here
-var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
+var rawData = fs.readFileSync('../data/bikelightcrimedata.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
 var graphList;
 var pointTree;
