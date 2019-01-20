@@ -3,23 +3,49 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
-var rawData = fs.readFileSync('./test.csv').toString();
-rawData = JSON.parse(rawData);
+//var serveStatic = require('serve-static')
+var dataLayers = {};
+var uaCrime = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/g,'"');
+dataLayers.uaCrime = JSON.parse(uaCrime);
 var app = express();
 app.use(bodyParser.json({extended: true}));
-
+app.use('/app', express.static('../frontend/SafeStroll'))
 console.log("server starting");
+
+/*
+endpoint to verify server actually up
+*/
 
 app.get('/test',function(req,res){
 	console.log("got here");
 	return res.status(200).json({"message": "connected"});
 });
 
+/*
+endpoint to send data to client
+*/
+
 app.post('/get_route',function(req,res){
-    console.log('get route called')
+    console.log('get route called');
+    console.log(req.body);
+    var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
+    var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
+
+    //so we can test frontend locally
     res.set('Access-Control-Allow-Origin', '*');
-    res.status(200).json({'points': rawData['data'][0].slice(0,5)});
+    //expect data to be formatted [lat,long,weight]
+    res.status(200).json(safestRoute(origin, destination, dataLayers));
 });
+
+/*
+calculates route to take
+*/
+
+function safestRoute(origin, destination, dataLayers){
+    return {'points': dataLayers.uaCrime.data.slice(0,5)};
+    //TODO: call djickstra's
+    //TODO: pass in various data functions
+}
 
 app.listen(9190);
 
