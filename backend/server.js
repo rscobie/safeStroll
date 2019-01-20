@@ -111,6 +111,7 @@ calculates route to take
 */
 
 function safestRoute(origin, destination, layerList){
+    console.log('safestRoute');
     return {"points": dijkstraSearch(nearestNode(origin), nearestNode(destination), layerList)};
 }
 
@@ -120,6 +121,7 @@ turns out kdTree package has this built in
 */
 
 function nearestNode(point){
+    console.log('nearestNode');
     return pointTree.nearest(point,1);
 }
 
@@ -154,6 +156,7 @@ layerList is list of keys that we care about for json
 */
 function dijkstraSearch(originRef, destinationRef, layerList){
     //TODO Noah will do this
+    console.log('dijkstraSearch');
     return lerp(originRef, destinationRef, {}, 1);
 }
 
@@ -162,6 +165,7 @@ placeholder while we work on searching
 resolution is points per 0.0003 degree (one grid)
 */
 function lerp(originRef, destinationRef, layerList, resolution){
+    console.log('lerp');
     var returnList = [[originRef.lat, originRef.long],[destinationRef.lat, destinationRef.long]];
     /*var distance = Math.sqrt(Math.abs(Math.pow(originRef.lat - destinationRef.lat, 2) +  Math.pow(originRef.long - destinationRef.long, 2)))
     var i = 0;
