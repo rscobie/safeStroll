@@ -8,7 +8,7 @@ rawData = JSON.parse(rawData);
 var app = express();
 app.use(bodyParser.json({extended: true}));
 app.set('views', '../frontend/SafeStroll');
-app.engine('html', function(){});
+app.set('view engine', 'html');
 console.log("server starting");
 
 /*
