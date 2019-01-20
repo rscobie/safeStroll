@@ -5,16 +5,22 @@ var fs = require('fs');
 var request = require('request');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
+
+var rawData;
+var graphList;
+var pointTree;
+var app;
+
 require('kd-tree-javascript', function(ubilabs){
     //generate graph and kd-tree here
-    var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
+    rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
     rawData = JSON.parse(rawData);
 
-    var graphList = generateGraphList(rawData.data);
-    var pointTree = generateTree(graphList, ubilabs);
+    graphList = generateGraphList(rawData.data);
+    pointTree = generateTree(graphList, ubilabs);
     generateGraph(graphList);
 
-    var app = express();
+    app = express();
     app.use(bodyParser.json({extended: true}));
     app.use('/app', express.static('../frontend/SafeStroll'));
     console.log("server starting");
