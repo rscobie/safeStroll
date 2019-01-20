@@ -159,13 +159,15 @@ uses dijkstra's algorithm to search for shortest (safest) path
 originRef and destinationRef are Node objects
 layerList is list of keys that we care about for json
 */
-function dijkstraSearch(originRef, destinationRef, layerList){
-    //TODO Noah will do this
+/*function dijkstraSearch(originRef, destinationRef, layerList){
     console.log('dijkstraSearch');
     console.log(originRef);
     console.log(destinationRef);
-    return lerp(originRef, destinationRef, {}, 1);
-}
+
+    
+
+    //return lerp(originRef, destinationRef, {}, 1);
+}*/
 
 /*
 placeholder while we work on searching
@@ -184,6 +186,286 @@ function lerp(originRef, destinationRef, layerList, resolution){
     }*/
     console.log(returnList);
     return returnList;
+}
+
+/*
+Noah's Dijkstra stuff
+*/
+/*
+var p1 = {
+	lat: 0,
+	long: 0,
+	weight: 10,
+	distance : 9999,
+	edges : []
+}
+
+var p2 = {
+	lat: 0,
+	long: 1,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p3 = {
+	lat: 0,
+	long: 2,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p4 = {
+	lat: 0,
+	long: 3,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p5 = {
+	lat: 1,
+	long: 0,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p6 = {
+	lat: 1,
+	long: 1,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p7 = {
+	lat: 1,
+	long: 2,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p8 = {
+	lat: 1,
+	long: 3,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p9 = {
+	lat: 2,
+	long: 0,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p10 = {
+	lat: 2,
+	long: 1,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p11 = {
+	lat: 2,
+	long: 2,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p12 = {
+	lat: 2,
+	long: 3,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p13 = {
+	lat: 3,
+	long: 0,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p14 = {
+	lat: 3,
+	long: 1,
+	weight: 1,
+	distance : 999999,
+	edges : []
+}
+
+var p15 = {
+	lat: 3,
+	long: 2,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+var p16 = {
+	lat: 3,
+	long: 3,
+	weight: 10,
+	distance : 999999,
+	edges : []
+}
+
+
+
+p1.edges = [p5, p2]
+p2.edges = [p1, p6, p3]
+p3.edges = [p2, p7, p4]
+p4.edges = [p3, p8]
+
+p5.edges = [p1, p6, p9]
+p6.edges = [p2, p5, p10, p7]
+p7.edges = [p3, p6, p11, p8]
+p8.edges = [p4, p7, p12]
+
+p9.edges = [p5, p10, p13]
+p10.edges = [p6, p9, p14, p11]
+p11.edges = [p7, p10, p15, p12]
+p12.edges = [p8, p11, p16]
+
+p13.edges = [p9, p14]
+p14.edges = [p10, p13, p15]
+p15.edges = [p11, p14, p16]
+p16.edges = [p12, p15]
+
+
+
+*/
+
+// main function call
+function dijkstraSearch(origin, destination, layerList) {
+	processedNodes = []
+	console.log("processedNodes")
+	console.log(processedNodes)
+
+	origin.distance = 0
+	
+
+	var currProcessQueue = [origin]
+	var nextProcessQueue = []
+
+
+
+	while(currProcessQueue.length != 0) {
+
+		while(currProcessQueue.length != 0) {
+			currNode = currProcessQueue.pop()
+			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue)
+		}
+
+		currProcessQueue = nextProcessQueue
+		nextProcessQueue = []
+	}
+
+
+	path = getPath(origin, destination)
+
+	coordsList = pathToCoords(path)
+
+	console.log(allNodes)
+	console.log(path)
+	console.log(coordsList)
+
+}
+
+function pathToCoords(path) {
+	coordsList = []
+
+	for(point of path) {
+		coordsList.push([point.lat, point.long, point.weight])
+	}
+
+	return coordsList
+}
+
+function getPath(originNode, destinationNode) {
+	currNode = destinationNode
+	path = [currNode]
+
+	while(currNode != originNode) {
+		// iterate through adjacent nodes
+		for(node of currNode.edges) {
+
+			// check if the nodes distance + current weight == currNode distance
+			if((node.distance+currNode.weight) == currNode.distance) {
+				currNode = node
+				path.push(currNode)
+				break
+			}
+
+		}
+
+
+	}
+
+	return path.reverse()
+}
+
+// checks all adjacent nodes and update values if necessary
+function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
+
+	console.log("\n\n")
+
+	// debug print
+	console.log(currNode)
+	s = "processing: (".concat(currNode.lat)
+	s = s.concat(",")
+	s = s.concat(currNode.long)
+	s = s.concat(")")
+	console.log(s)
+
+
+
+
+	// add processed node to processsedNodes
+	processedNodes.push(currNode)
+
+
+	var tempDistance
+
+	// iterate through adjacent nodes
+	for (i = 0; i < currNode.edges.length; i++) { 
+		
+		// update the distance of adjacent nodes
+		tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] //TODO: add modification based off of layerList
+		console.log(currNode.edges[i])
+		console.log(tempDistance)
+		if(currNode.edges[i].distance > tempDistance) {
+			currNode.edges[i].distance = tempDistance
+		}
+
+		// check if node is already in processedNodes
+		notProcessed = true
+		for(j = 0; j < processedNodes.length; j++) {
+
+			if((processedNodes[j].lat == currNode.edges[i].lat) && (processedNodes[j].long == currNode.edges[i].long)) {
+				notProcessed = false
+			}
+		}
+
+		if(!processedNodes.includes(currNode.edges[i]) && !nextProcessQueue.includes(currNode.edges[i])){
+			//checkAdjacentNodes(currNode.edges[i], processedNodes)
+			nextProcessQueue.push(currNode.edges[i])
+		}
+	}
+
+
+
+
 }
 
 app.listen(9190);
