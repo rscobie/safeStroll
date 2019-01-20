@@ -429,19 +429,34 @@ function getPath(originNode, destinationNode) {
 
         console.log(currNode)
         // iterate through adjacent nodes
+
+        var tempNode_distance = 1000000
+        var tempNode = null
+
 		for(node of currNode.edges) {
 
             // console.log(node)
             // check if the nodes distance + current weight == currNode distance
-            console.log("node.distance+currNode.weight: " + (node.distance+currNode.weight))
-            console.log("currNode.distance: " + (currNode.distance))
-			if((node.distance+currNode.weights['crimeweight']+2) == currNode.distance) {
-				currNode = node
-				path.push(currNode)
-				break
-			}
+            // console.log("node.distance+currNode.weight: " + (node.distance+currNode.weight))
+            // console.log("currNode.distance: " + (currNode.distance))
 
-		}
+            if(node.distance < tempNode_distance || tempNode == null ) {
+                tempNode = node
+                tempNode_distance = node.distance
+            }
+
+
+
+			// if((node.distance+currNode.weights['crimeweight']+2) == currNode.distance) {
+			// 	currNode = node
+			// 	path.push(currNode)
+			// 	break
+			// }
+
+        }
+        
+        currNode = tempNode
+        path.push(currNode)
 
 
 	}
