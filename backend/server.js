@@ -5,22 +5,20 @@ var fs = require('fs');
 var request = require('request');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
-var KdTreePkg = require('kd-tree-javascript');
-console.log(kdTreePkg);
-KdTreePkg();//execute this
+require('kd-tree-javascript', function(ubilabs){
+    //generate graph and kd-tree here
+    var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
+    rawData = JSON.parse(rawData);
 
-//generate graph and kd-tree here
-var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
-rawData = JSON.parse(rawData);
+    var graphList = generateGraphList(rawData.data);
+    var pointTree = generateTree(graphList, ubilabs);
+    generateGraph(graphList);
 
-var graphList = generateGraphList(rawData.data);
-var pointTree = generateTree(graphList);
-generateGraph(graphList);
-
-var app = express();
-app.use(bodyParser.json({extended: true}));
-app.use('/app', express.static('../frontend/SafeStroll'));
-console.log("server starting");
+    var app = express();
+    app.use(bodyParser.json({extended: true}));
+    app.use('/app', express.static('../frontend/SafeStroll'));
+    console.log("server starting");
+});
 
 /*
 endpoint to verify server actually up
@@ -81,7 +79,7 @@ latitude/longitude
 */
 
 function generateTree(nodeList){
-    returnTree = new KdTree(nodeList, function(pointA, pointB){
+    returnTree = new ubilabs.kdTree(nodeList, function(pointA, pointB){
         //don't care about sqrt since it's comparative anyway
         return Math.pow(pointA.lat - pointB.lat, 2) +  Math.pow(pointA.long - pointB.long, 2);
     }, ["lat", "long"]);
