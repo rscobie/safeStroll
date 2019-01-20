@@ -16,13 +16,14 @@ require('kd-tree-javascript', function(ubilabs){
     rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
     rawData = JSON.parse(rawData);
 
+    app = express();
+    app.use(bodyParser.json({extended: true}));
+    app.use('/app', express.static('../frontend/SafeStroll'));
+
     graphList = generateGraphList(rawData.data);
     pointTree = generateTree(graphList, ubilabs);
     generateGraph(graphList);
 
-    app = express();
-    app.use(bodyParser.json({extended: true}));
-    app.use('/app', express.static('../frontend/SafeStroll'));
     console.log("server starting");
 });
 
