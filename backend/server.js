@@ -49,6 +49,8 @@ require('kd-tree-javascript', function(ubilabs){
         res.status(200).json(safestRoute(origin, destination, dataLayers));
     });
 
+    app.listen(9190);
+
     console.log("server starting");
 });
 
@@ -164,7 +166,5 @@ function lerp(originRef, destinationRef, layerList, resolution){
     }*/
     return returnList;
 }
-
-app.listen(9190);
 
 module.exports = app;
