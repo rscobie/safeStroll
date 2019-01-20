@@ -12,23 +12,30 @@ body {
     background-size: cover;
 }
 
-#title {
-
-}
-
  #mapid {
-    width: 1000px;
-    height: 600px;
+    width: 100%;
     margin: auto;
+    height:70vh;
  }
 
  .leaflet-marker-icon {
 
-    visibility: hidden;
+    /*visibility: hidden;*/
+ }
+
+ #routeFound {
+    color:green;
+    font-size: 16px;
+    display: none;
+    font-weight:bold;
  }
 
  #fields {
-     padding-top: 20px;
-     width:25%;
+     padding-top: 10px;
      margin:auto;
+ }
+
+ #submit-button {
+    margin:0 auto;
+    display:block;
  }
