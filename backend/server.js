@@ -31,6 +31,7 @@ endpoint to send data to client
 
 app.post('/get_route',function(req,res){
     console.log('get route called');
+    console.log(req);
     console.log(JSON.stringify(req.body));
     var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
     var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
