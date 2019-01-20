@@ -349,8 +349,8 @@ p16.edges = [p12, p15]
 // main function call
 function dijkstraSearch(origin, destination, layerList) {
 	processedNodes = []
-	console.log("processedNodes")
-	console.log(processedNodes)
+	// console.log("processedNodes")
+	// console.log(processedNodes)
 
 	origin.distance = 0
 	
@@ -376,9 +376,9 @@ function dijkstraSearch(origin, destination, layerList) {
 
 	coordsList = pathToCoords(path)
 
-	console.log(allNodes)
-	console.log(path)
-	console.log(coordsList)
+	//console.log(allNodes)
+	//console.log(path)
+	//console.log(coordsList)
 
 }
 
@@ -418,15 +418,15 @@ function getPath(originNode, destinationNode) {
 // checks all adjacent nodes and update values if necessary
 function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
 
-	console.log("\n\n")
+	//console.log("\n\n")
 
 	// debug print
-	console.log(currNode)
+	//console.log(currNode)
 	s = "processing: (".concat(currNode.lat)
 	s = s.concat(",")
 	s = s.concat(currNode.long)
 	s = s.concat(")")
-	console.log(s)
+	//console.log(s)
 
 
 
@@ -442,8 +442,8 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue) {
 		
 		// update the distance of adjacent nodes
 		tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] //TODO: add modification based off of layerList
-		console.log(currNode.edges[i])
-		console.log(tempDistance)
+		//console.log(currNode.edges[i])
+		//console.log(tempDistance)
 		if(currNode.edges[i].distance > tempDistance) {
 			currNode.edges[i].distance = tempDistance
 		}
