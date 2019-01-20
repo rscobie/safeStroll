@@ -50,7 +50,6 @@
                         <h1>StrollSafe</h1>
                         <p>Hack Arizona 2019 Submission, a webapp that predicts safe routes for pedestrians using machine learning and data-driven decision making.</p>
                         <p id="routeFound">Safe route found!</p>
-                        <p id="routeFound">Safe route found!</p>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -94,12 +93,12 @@
                     var match = origin.search("85719");
                     if (match == -1) {
                         origin = origin + " 85719";
-                        document.getElementById("routeFound").style.visibility = "hidden";
+                        document.getElementById("routeFound").style.display = "none";
                     }
                     match = dest.search("85719");
                     if (match == -1) {
                         dest = dest + " 85719";
-                        document.getElementById("routeFound").style.visibility = "hidden";
+                        document.getElementById("routeFound").style.display = "none";
                     }
 
                     geocoder = new L.Control.Geocoder.Nominatim();
@@ -149,14 +148,20 @@
                                     lineOptions: {
                                         addWaypoints: false
                                     },
-                                    waypointMode: 'snap'
+                                    waypointMode: 'snap',
+                                    
                                 }).addTo(mymap);
 
-                                document.getElementById("routeFound").style.visibility = "visible";
+                                if (window.innerWidth < 750) {
+                                    route.hide();
+                                }
+                                else route.show();
+
+                                document.getElementById("routeFound").style.display = "block";
 
                             }).fail(function(jqXHR, textStatus, errorThrown){
-                                console.log(err);
-                                document.getElementById("routeFound").style.visibility = "visible";
+                                console.log(errorThrown);
+                                document.getElementById("routeFound").style.display = "none";
                                 alert('Could not reach server (Rory\'s Home)');
                             });
                         });
