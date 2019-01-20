@@ -179,6 +179,7 @@ function lerp(originRef, destinationRef, layerList, resolution){
         let tempNode = nearestNode()
         returnList.push([,,]);
     }*/
+    console.log(returnList);
     return returnList;
 }
 
