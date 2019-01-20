@@ -36,7 +36,7 @@ app.post('/get_route',function(req,res){
 endpoint to serve frontent
 */
 app.get('/app',function(req,res){
-    res.redirect('../frontend/index');
+    res.redirect('../frontend/index.html');
 });
 
 app.listen(9190);
