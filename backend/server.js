@@ -37,7 +37,7 @@ app.post('/get_route',function(req,res){
     //so we can test frontend locally
     res.set('Access-Control-Allow-Origin', '*');
     //expect data to be formatted [lat,long,weight]
-    res.status(200).json(safestRoute(origin, destination, dataLayers));
+    res.status(200).json(safestRoute(origin, destination, graphList));
 });
 
 
