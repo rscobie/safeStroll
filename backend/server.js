@@ -86,6 +86,7 @@ connect nodes into grid
 function generateGraph(graphList){
     for(node of graphList){
         for(point of adjascentPoints(node)){
+            console.log(point);
             node.edges.push(point);
         }
     }
@@ -127,7 +128,7 @@ turns out kdTree package has this built in
 
 function nearestNode(point){
     console.log('nearestNode');
-    return pointTree.nearest(point,1);
+    return pointTree.nearest(point,1)[0][0];
 }
 
 /*
@@ -136,6 +137,7 @@ turns out kdTree package has this built in
 */
 
 function adjascentPoints(point){
+    console.log('adjascent points')
     return pointTree.nearest(point,4);
 }
 
