@@ -4,8 +4,9 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
 //var serveStatic = require('serve-static')
-var rawData = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/g,'"');
-rawData = JSON.parse(rawData);
+var dataLayers = {};
+var uaCrime = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/g,'"');
+dataLayers.uaCrime = JSON.parse(uaCrime);
 var app = express();
 app.use(bodyParser.json({extended: true}));
 app.use('/app', express.static('../frontend/SafeStroll'))
@@ -27,11 +28,24 @@ endpoint to send data to client
 app.post('/get_route',function(req,res){
     console.log('get route called');
     console.log(req.body);
+    var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
+    var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
+
     //so we can test frontend locally
     res.set('Access-Control-Allow-Origin', '*');
     //expect data to be formatted [lat,long,weight]
-    res.status(200).json({'points': rawData['data'].slice(0,5)});
+    res.status(200).json(safestRoute(origin, destination, dataLayers));
 });
+
+/*
+calculates route to take
+*/
+
+function safestRoute(origin, destination, dataLayers){
+    return {'points': dataLayers.uaCrime.data.slice(0,5)};
+    //TODO: call djickstra's
+    //TODO: pass in various data functions
+}
 
 app.listen(9190);
 
