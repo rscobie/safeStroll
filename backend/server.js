@@ -151,7 +151,7 @@ placeholder while we work on searching
 resolution is points per 0.0003 degree (one grid)
 */
 function lerp(originRef, destinationRef, layerList, resolution){
-    var returnList = [[originRef.lat, originRef.long, originRef.weights['crimeweights']],[destinationRef.lat, destinationRef.long, destinationRef.weights['crimeweights']]];
+    var returnList = [[originRef.lat, originRef.long],[destinationRef.lat, destinationRef.long]];
     /*var distance = Math.sqrt(Math.abs(Math.pow(originRef.lat - destinationRef.lat, 2) +  Math.pow(originRef.long - destinationRef.long, 2)))
     var i = 0;
     for(i = 0; i < distance*resolution/0.0003; ++i){
