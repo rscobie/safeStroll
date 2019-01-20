@@ -86,7 +86,7 @@ connect nodes into grid
 function generateGraph(graphList){
     for(node of graphList){
         for(point of adjascentPoints(node)){
-            if(node != point){
+            if(node !== point){
                 node.edges.push(point[0]);
             }
         }
