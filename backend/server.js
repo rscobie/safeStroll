@@ -122,9 +122,12 @@ Node for graph prototype
 */
 
 function Node(data){
-    this.lat = data[0];
-    this.long = data[1];
-    this.weights = data[2];
+    this.lat = data.latitude;
+    this.long = data.longitude;
+    this.this.weights = {
+        crimeweight: data.crimeweight, 
+        lightweight: data.lightweight
+    };
     this.distance = Infinity;
     this.edges = [];
 }
@@ -144,7 +147,7 @@ placeholder while we work on searching
 resolution is points per 0.0003 degree (one grid)
 */
 function lerp(originRef, destinationRef, layerList, resolution){
-    var returnList = [[originRef.lat, originRef.long, originRef.weights[0],[]];
+    var returnList = [[originRef.lat, originRef.long, originRef.weights['crimeweights']],[destinationRef.lat, destinationRef.long, destinationRef.weights['crimeweights']]];
     /*var distance = Math.sqrt(Math.abs(Math.pow(originRef.lat - destinationRef.lat, 2) +  Math.pow(originRef.long - destinationRef.long, 2)))
     var i = 0;
     for(i = 0; i < distance*resolution/0.0003; ++i){
