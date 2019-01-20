@@ -214,10 +214,59 @@
                         var requestData = JSON.stringify({'originLat': latLngOrigin.lat, 'originLng': latLngOrigin.lng, 'destLat': latLngDest.lat, 'destLng': latLngDest.lng, 'dataset': mode.selectedIndex});
                         console.log(requestData);
 
-                        $.ajax({
+                        //start
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.responseType = "json";
+                        xhr.open("POST", "http://72.200.110.63:9190/get_route", true);
+
+                        xhr.addEventListener("load", function() {
+                            console.log("Recieved Data from Server ");
+                            //console.log(xhr.responseText);
+
+                            var responseData = JSON.parse(xhr.response);
+                            var endpoints = responseData.points;
+                            var path = [];
+
+                            for (i = 0; i < endpoints.length; i++) {
+                                path[i] = new L.LatLng(endpoints[i][0], endpoints[i][1], endpoints[i][2]);
+                            }
+
+                            route = L.Routing.control({
+                                waypoints: path,
+                                //createMarker: function() { return null; },
+                                /*lineOptions: {
+                                    addWaypoints: false
+                                },*/
+                                waypointMode: 'snap',
+                                
+                            }).addTo(mymap);
+
+                            if (window.innerWidth < 750) {
+                                route.hide();
+                            }
+                            else route.show();
+
+                            document.getElementById("routeFound").style.display = "block";
+                        });
+
+                        xhr.addEventListener("fail", function(jqXHR, textStatus, errorThrown){
+                            console.log(errorThrown);
+                            document.getElementById("routeFound").style.display = "none";
+                            $('#serverError').modal('show');
+                        });
+
+
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.send(requestData);
+                        //end
+
+                        /*$.ajax({
                             url: 'http://72.200.110.63:9190/get_route',
                             type: 'POST',
                             ContentType: 'application/json',
+
                             data: {'data': requestData}
                         }).done(function(responseData){
                             console.log("Recieved Data from Server ");
@@ -246,15 +295,12 @@
                             else route.show();
 
                             document.getElementById("routeFound").style.display = "block";
-
-
-
-
+                            
                         }).fail(function(jqXHR, textStatus, errorThrown){
                             console.log(errorThrown);
                             document.getElementById("routeFound").style.display = "none";
                             $('#serverError').modal('show');
-                        });
+                        });*/
                     }
                 });
             });
