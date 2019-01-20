@@ -44,7 +44,7 @@ app.post('/get_route',function(req,res){
 
     //expect data to be formatted [lat,long,weight]
     //res.status(200).json({'points': [[32,-110,1],[,32.1,-110,0.1]]});
-    res.status(200).json(safestRoute(origin, destination, graphList));
+    res.status(200).json(safestRoute(origin, destination, req.body.dataset));
 });
 
 /*
@@ -349,7 +349,7 @@ p16.edges = [p12, p15]
 */
 
 // main function call
-function dijkstraSearch(origin, destination, layerList) {
+function dijkstraSearch(origin, destination, mode) {
     console.log('dijkstra begin');
 	processedNodes = []
 	// console.log("processedNodes")
@@ -380,7 +380,7 @@ function dijkstraSearch(origin, destination, layerList) {
 
 		while(currProcessQueue.length != 0) {
 			currNode = currProcessQueue.pop()
-			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs)
+			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs, mode)
 		}
 
 		currProcessQueue = nextProcessQueue
@@ -464,8 +464,29 @@ function getPath(originNode, destinationNode) {
 	return path.reverse()
 }
 
+function calcWeight(node, mode) {
+    //mode 0, 1,2  = (day, night, bike)
+    var weight
+
+    if(mode == 0) {
+        weight = node.weights['crimeweight'] + 2
+    } 
+    if(mode == 1) {
+        weight = node.weights['crimeweight'] + 2
+        if(node.weights['lightweight'] == 1) {
+            weight = weight * 0.75
+        }
+    }
+    if(mode ==2) {
+        weight = node.weights['bikeweight'] + 2
+    }
+
+    return weight
+}
+
+
 // checks all adjacent nodes and update values if necessary
-function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs) {
+function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_maxs, mode) {
 
 	//console.log("\n\n")
 
@@ -490,8 +511,12 @@ function checkAdjacentNodes(currNode, processedNodes, nextProcessQueue, mins_max
 	for (i = 0; i < currNode.edges.length; i++) { 
 		
 		// update the distance of adjacent nodes
-		tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] + 2 //TODO: add modification based off of layerList
-		//console.log(currNode.edges[i])
+		//tempDistance = currNode.distance + currNode.edges[i].weights['crimeweight'] + 2 //TODO: add modification based off of layerList
+        tempDistance = currNode.distance + calcWeight(currNode.edges[i], mode) //TODO: add modification based off of layerList
+
+        
+        
+        //console.log(currNode.edges[i])
 		//console.log(tempDistance)
 		if(currNode.edges[i].distance > tempDistance) {
             currNode.edges[i].distance = tempDistance
