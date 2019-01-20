@@ -87,7 +87,6 @@ function generateGraph(graphList){
     for(node of graphList){
         for(point of adjascentPoints(node)){
             if(node != point){
-                console.log(node);
                 node.edges.push(point[0]);
             }
         }
