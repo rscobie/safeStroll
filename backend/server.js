@@ -99,8 +99,6 @@ calculates route to take
 */
 
 function safestRoute(origin, destination, layerList){
-    return {'points': rawData.slice(0,5)};//DEBUG
-    //TODO: make sure that I don't need any more processing of data
     return {"points": dijkstraSearch(nearestNode(origin), nearestNode(destination), layerList)};
 }
 
