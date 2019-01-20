@@ -117,7 +117,7 @@ function safestRoute(origin, destination, layerList){
     console.log(nearestOrigin)
     var nearestDestination = nearestNode(destination)
     console.log(nearestDestination)
-    return {"points": dijkstraSearch(nearestOrigin, nearestDestination, layerList)};
+    return JSON.stringify({"points": dijkstraSearch(nearestOrigin, nearestDestination, layerList)});
 }
 
 /*
