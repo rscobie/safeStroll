@@ -114,9 +114,9 @@ calculates route to take
 function safestRoute(origin, destination, layerList){
     console.log('safestRoute');
     var nearestOrigin = nearestNode(origin);
-    console.log('a')
+    console.log(nearestOrigin)
     var nearestDestination = nearestNode(destination)
-    console.log('b')
+    console.log(nearestDestination)
     return {"points": dijkstraSearch(nearestOrigin, nearestDestination, layerList)};
 }
 
