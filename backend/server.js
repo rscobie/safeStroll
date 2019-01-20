@@ -3,12 +3,12 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var request = require('request');
+//var serveStatic = require('serve-static')
 var rawData = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
 var app = express();
 app.use(bodyParser.json({extended: true}));
-app.set('views', '../frontend/SafeStroll');
-app.set('view engine', 'pug');
+app.use('/app', express.static('../frontend/SafeStroll'))
 console.log("server starting");
 
 /*
@@ -31,13 +31,6 @@ app.post('/get_route',function(req,res){
     res.set('Access-Control-Allow-Origin', '*');
     //expect data to be formatted [lat,long,weight]
     res.status(200).json({'points': rawData['data'].slice(0,5)});
-});
-
-/*
-endpoint to serve frontent
-*/
-app.get('/app',function(req,res,next){
-    res.render('index', {'title': 'strollSafe'});
 });
 
 app.listen(9190);
