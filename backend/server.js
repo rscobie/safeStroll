@@ -8,10 +8,10 @@ var request = require('request');
 var KdTreePkg = require('kd-tree-javascript');
 
 //generate graph and kd-tree here
-var rawData = fs.readFileSync('../data/crimedataua.json').toString().replace(/'/g,'"');
+var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
 
-var graphList = generateGraphList(rawData);
+var graphList = generateGraphList(rawData.data);
 var kdTree = generateTree(graphList);
 generateGraph(graphList);
 
