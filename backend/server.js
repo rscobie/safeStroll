@@ -16,6 +16,13 @@ var app = express();
 app.use(bodyParser.json({extended: true}));
 app.use('/app', express.static('../frontend/SafeStroll'));
 
+//enable CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 /*
 endpoint to verify server actually up
 */
@@ -35,8 +42,6 @@ app.post('/get_route',function(req,res){
     var origin = {'lat': req.body.originLat, 'long': req.body.originLng}
     var destination = {'lat': req.body.destLat, 'long': req.body.destLng}
 
-    //so we can test frontend locally
-    res.set('Access-Control-Allow-Origin', '*');
     res.status(200).json(req.body);
     //expect data to be formatted [lat,long,weight]
     //res.status(200).json(safestRoute(origin, destination, graphList));
