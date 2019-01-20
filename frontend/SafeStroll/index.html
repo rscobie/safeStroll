@@ -27,6 +27,7 @@
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
         <script src="./lib/Leaflet.heat-gh-pages/dist/leaflet-heat.js"></script>
+        <script type="text/javascript" src="./assets/uaheatmap.json"></script>
 
     </head>
 
@@ -71,6 +72,7 @@
                             </select>
                             <div style="text-align:center;">
                                 <button type="submit" id="submit-button" class="btn btn-primary">Map Route</button>
+                                <button type="button" id="heat-button" class="btn btn-secondary">Crime Heat Map</button>
                                 <i id="loading" class="fa fa-refresh fa-spin"></i>
                             </div>
 
@@ -125,6 +127,7 @@
         $destination = $("#destination");
         $mode = $('#mode');
         $button = $("#submit-button");
+        $heatmapbutton = $("#heat-button");
         $('#errorModal').modal({ show: false});
         var route = L.Routing.control({
                         waypoints: [
@@ -132,6 +135,28 @@
                     }).addTo(mymap);
 
         var markerGroup = L.layerGroup().addTo(mymap);
+        var heatActive = false;
+        var heat;
+        var heatmap;
+
+        $heatmapbutton.click(function(event){
+
+            if (heatActive) {
+                mymap.removeLayer(heat);
+                heatActive = false;
+            }
+
+            else {
+                heatmap = heatmapdata;
+
+                for (i = 0; i < heatmap.length; i++) {
+                    heatmap[i][2] = heatmap[i][2] / 200;
+                }
+
+                heat = L.heatLayer(heatmap, {radius: 25}).addTo(mymap);
+                heatActive = true;
+            }
+        });
 
         $button.click(function(event){
             var origin = $origination.val();
@@ -154,26 +179,6 @@
             if (match == -1) {
                 dest = dest + " 85719";
             }
-
-            /*var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", "file:///C:/Users/Mike/Documents/SafeStroll/safeStroll/frontend/SafeStroll/assets/uaheatmap.json", false);
-            rawFile.onreadystatechange = function ()
-            {
-                if(rawFile.readyState === 4)
-                {
-                    if(rawFile.status === 200 || rawFile.status == 0)
-                    {
-                        var allText = rawFile.responseText;
-                        alert(allText);
-                    }
-                }
-            }
-            rawFile.send(null);
-
-            var heatPoints = allText.data;
-
-            var heat = L.heatLayer(heatPoints, {radius: 25}).addTo(mymap);*/
-
 
             geocoder = new L.Control.Geocoder.Nominatim();
             
@@ -234,6 +239,9 @@
                                     addWaypoints: false
                                 },*/
                                 waypointMode: 'snap',
+                                lineOptions: {
+                                    styles: [{color: 'red', opacity: 0, weight: 5}]
+                                }
                                 
                             }).addTo(mymap);
 

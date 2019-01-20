@@ -1,5 +1,5 @@
 {
-    "data": [
+    var heatmapdata = [
         [
             32.25,
             -110.969,
