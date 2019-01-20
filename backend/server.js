@@ -12,7 +12,7 @@ var rawData = fs.readFileSync('../data/combineddata.json').toString().replace(/'
 rawData = JSON.parse(rawData);
 
 var graphList = generateGraphList(rawData.data);
-var kdTree = generateTree(graphList);
+var pointTree = generateTree(graphList);
 generateGraph(graphList);
 
 var app = express();
@@ -79,7 +79,7 @@ latitude/longitude
 */
 
 function generateTree(nodeList){
-    returnTree = new KdTreePkg(nodeList, function(pointA, pointB){
+    returnTree = new KdTree(nodeList, function(pointA, pointB){
         //don't care about sqrt since it's comparative anyway
         return Math.pow(pointA.lat - pointB.lat, 2) +  Math.pow(pointA.long - pointB.long, 2);
     }, ["lat", "long"]);
@@ -105,7 +105,7 @@ turns out kdTree package has this built in
 */
 
 function nearestNode(point){
-    return kdTree.nearest(point,1);
+    return pointTree.nearest(point,1);
 }
 
 /*
@@ -114,7 +114,7 @@ turns out kdTree package has this built in
 */
 
 function adjascentPoints(point){
-    return kdTree.nearest(point,4);
+    return pointTree.nearest(point,4);
 }
 
 /*
