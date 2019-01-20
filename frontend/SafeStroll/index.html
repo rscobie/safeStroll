@@ -15,6 +15,7 @@
         crossorigin=""/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="./css/styles.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -69,7 +70,11 @@
                                 <option>Nighttime Crime</option>
                                 <option>Bike Accidents</option>
                             </select>
-                            <button type="submit" id="submit-button" class="btn btn-primary">Map Route</button>
+                            <div style="text-align:center;">
+                                <button type="submit" id="submit-button" class="btn btn-primary">Map Route</button>
+                                <i id="loading" class="fa fa-refresh fa-spin"></i>
+                            </div>
+
                         </div>
                     <div class="col-md-6" style="text-align: center">
                         <h1 style="margin-top:20px">StrollSafe</h1>
@@ -90,7 +95,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">Could not connect to server.</div>
+                <div class="modal-body">Did not receive a response from the server.</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -139,6 +144,7 @@
 
             markerGroup.clearLayers()
             mymap.removeControl(route);
+            document.getElementById("loading").style.visibility = "visible";
 
             var match = origin.search("85719");
             if (match == -1) {
@@ -179,7 +185,47 @@
                         console.log(dest + " was found at " + latLngDest.toString());
                     }
 
-                    /*var testData = {
+                    if (validRequest) {
+                        var requestData = JSON.stringify({'originLat': latLngOrigin.lat, 'originLng': latLngOrigin.lng, 'destLat': latLngDest.lat, 'destLng': latLngDest.lng, 'dataset': mode.selectedIndex});
+                        console.log(requestData);
+
+                        //start
+
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.responseType = "json";
+                        xhr.open("POST", "http://72.200.110.63:9190/get_route", true);
+
+                        xhr.addEventListener("load", function() {
+                            console.log("Recieved Data from Server ");
+                            //console.log(xhr.responseText);
+                            document.getElementById("loading").style.visibility = "hidden";
+                            var responseData = JSON.parse(xhr.response);
+                            var endpoints = responseData.points;
+                            var path = [];
+
+                            for (i = 0; i < endpoints.length; i++) {
+                                path[i] = new L.LatLng(endpoints[i][0], endpoints[i][1], endpoints[i][2]);
+                            }
+
+                            route = L.Routing.control({
+                                waypoints: path,
+                                //createMarker: function() { return null; },
+                                /*lineOptions: {
+                                    addWaypoints: false
+                                },*/
+                                waypointMode: 'snap',
+                                
+                            }).addTo(mymap);
+
+                            if (window.innerWidth < 750) {
+                                route.hide();
+                            }
+                            else route.show();
+
+                            document.getElementById("routeFound").style.display = "block";
+
+                            var testData = {
                                 max: 8,
                                 data: [{lat: 32.228287, lng:-110.958621, count: 3},{lat: 32.235124, lng:-110.953119, count: 1}]
                             };
@@ -206,52 +252,19 @@
 
                             var heatmapLayer = new HeatmapOverlay(cfg);
 
+                            
+                            heatmapLayer.setData(testData);
                             mymap.addLayer(heatmapLayer);
 
-                            heatmapLayer.setData(testData);*/
 
-                    if (validRequest) {
-                        var requestData = JSON.stringify({'originLat': latLngOrigin.lat, 'originLng': latLngOrigin.lng, 'destLat': latLngDest.lat, 'destLng': latLngDest.lng, 'dataset': mode.selectedIndex});
-                        console.log(requestData);
-
-                        //start
-
-                        var xhr = new XMLHttpRequest();
-
-                        xhr.responseType = "json";
-                        xhr.open("POST", "http://72.200.110.63:9190/get_route", true);
-
-                        xhr.addEventListener("load", function() {
-                            console.log("Recieved Data from Server ");
-                            //console.log(xhr.responseText);
-
-                            var responseData = JSON.parse(xhr.response);
-                            var endpoints = responseData.points;
-                            var path = [];
-
-                            for (i = 0; i < endpoints.length; i++) {
-                                path[i] = new L.LatLng(endpoints[i][0], endpoints[i][1], endpoints[i][2]);
-                            }
-
-                            route = L.Routing.control({
-                                waypoints: path,
-                                //createMarker: function() { return null; },
-                                /*lineOptions: {
-                                    addWaypoints: false
-                                },*/
-                                waypointMode: 'snap',
-                                
-                            }).addTo(mymap);
-
-                            if (window.innerWidth < 750) {
-                                route.hide();
-                            }
-                            else route.show();
-
-                            document.getElementById("routeFound").style.display = "block";
                         });
 
-                        xhr.addEventListener("fail", function(jqXHR, textStatus, errorThrown){
+                        xhr.addEventListener("progress", function(){
+                            document.getElementById("loading").style.visibility = "visible";
+                        });
+
+                        xhr.addEventListener("error", function(jqXHR, textStatus, errorThrown){
+                            document.getElementById("loading").style.visibility = "hidden";
                             console.log(errorThrown);
                             document.getElementById("routeFound").style.display = "none";
                             $('#serverError').modal('show');
