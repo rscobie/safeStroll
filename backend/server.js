@@ -36,7 +36,7 @@ app.post('/get_route',function(req,res){
 endpoint to serve frontent
 */
 app.get('/app',function(req,res){
-    res.sendFile('/home/rory/safeStroll/frontend/index.html');
+    res.sendFile('/home/rory/safeStroll/frontend/SafeStroll/index.html');
 });
 
 app.listen(9190);
