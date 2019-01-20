@@ -406,6 +406,7 @@ function dijkstraSearch(origin, destination, layerList) {
     //console.log(coordsList)
     console.log('done');
 
+    return coordsList;
 }
 
 function pathToCoords(path) {
