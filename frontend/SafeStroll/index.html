@@ -49,6 +49,8 @@
                     <div class="col-md-6" style="text-align: center">
                         <h1>StrollSafe</h1>
                         <p>Hack Arizona 2019 Submission, a webapp that predicts safe routes for pedestrians using machine learning and data-driven decision making.</p>
+                        <p id="routeFound">Safe route found!</p>
+                        <p id="routeFound">Safe route found!</p>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -77,8 +79,7 @@
                                 ]
                             }).addTo(mymap);
 
-                var latLngOrigin;
-                var markerOrigin;
+                var markerGroup = L.layerGroup().addTo(mymap);
 
                 $button.click(function(event){
                     console.log('clicked')
@@ -87,30 +88,40 @@
                     var latLngOrigin;
                     var latLngDest;
 
-                    //mymap.removeLayer(latLngOrigin);
-                    //mymap.removeLayer(markerOrigin);
-
+                    markerGroup.clearLayers()
                     mymap.removeControl(route);
 
                     var match = origin.search("85719");
                     if (match == -1) {
                         origin = origin + " 85719";
+                        document.getElementById("routeFound").style.visibility = "hidden";
                     }
                     match = dest.search("85719");
                     if (match == -1) {
                         dest = dest + " 85719";
+                        document.getElementById("routeFound").style.visibility = "hidden";
                     }
 
                     geocoder = new L.Control.Geocoder.Nominatim();
                     
                     geocoder.geocode(origin, function(originCoords) {
+
+                        if (originCoords[0] == null) {
+                            alert('Could not locate origin. Location may be outside of Tucson.');
+                        }
+
                         latLngOrigin = new L.LatLng(originCoords[0].center.lat, originCoords[0].center.lng);
-                        markerOrigin = new L.Marker(latLngOrigin).addTo(mymap);
+                        markerOrigin = new L.Marker(latLngOrigin).addTo(markerGroup);
                         console.log(origin + " was found at " + latLngOrigin.toString());
 
-                        geocoder.geocode(dest, function(destCoords) {    
+                        geocoder.geocode(dest, function(destCoords) {
+
+                            if (destCoords[0] == null) {
+                                alert('Could not locate destination. Location may be outside of Tucson.');
+                            }
+
                             latLngDest = new L.LatLng(destCoords[0].center.lat, destCoords[0].center.lng);
-                            markerDest = new L.Marker(latLngDest).addTo(mymap);
+                            markerDest = new L.Marker(latLngDest).addTo(markerGroup);
                             console.log(dest + " was found at " + latLngDest.toString());
                             
                             var requestData = JSON.stringify({'originLat': latLngOrigin.lat, 'originLng': latLngOrigin.lng, 'destLat': latLngDest.lat, 'destLng': latLngDest.lng});
@@ -140,8 +151,12 @@
                                     },
                                     waypointMode: 'snap'
                                 }).addTo(mymap);
+
+                                document.getElementById("routeFound").style.visibility = "visible";
+
                             }).fail(function(jqXHR, textStatus, errorThrown){
                                 console.log(err);
+                                document.getElementById("routeFound").style.visibility = "visible";
                                 alert('Could not reach server (Rory\'s Home)');
                             });
                         });
