@@ -431,7 +431,7 @@ function getPath(originNode, destinationNode) {
             // check if the nodes distance + current weight == currNode distance
             console.log("node.distance+currNode.weight: " + (node.distance+currNode.weight))
             console.log("currNode.distance: " + (currNode.distance))
-			if((node.distance+currNode.weight) == currNode.distance) {
+			if((node.distance+currNode.weights['crimeweight']) == currNode.distance) {
 				currNode = node
 				path.push(currNode)
 				break
