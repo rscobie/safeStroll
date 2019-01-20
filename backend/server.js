@@ -6,7 +6,7 @@ var request = require('request');
 var requirejs = require('requirejs');
 //was going to implement our own but turns out somebody made one already
 //no need to reinvent the wheel
-
+//
 //generate graph and kd-tree here
 var rawData = fs.readFileSync('../data/bikelightcrimedata.json').toString().replace(/'/g,'"');
 rawData = JSON.parse(rawData);
