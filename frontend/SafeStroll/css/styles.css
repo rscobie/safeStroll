@@ -17,18 +17,18 @@ body {
 }
 
  #mapid {
-    width: 1000px;
+    width: 100%;
     height: 600px;
     margin: auto;
  }
 
  .leaflet-marker-icon {
 
-    visibility: hidden;
+    /*visibility: hidden;*/
  }
 
  #fields {
      padding-top: 20px;
-     width:25%;
+     width:50%;
      margin:auto;
  }
