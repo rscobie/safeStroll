@@ -31,7 +31,11 @@ body {
  }
 
  #fields {
-     padding-top: 20px;
-     padding-bottom: 20px;
+     padding-top: 10px;
      margin:auto;
+ }
+
+ #submit-button {
+    margin:0 auto;
+    display:block;
  }
