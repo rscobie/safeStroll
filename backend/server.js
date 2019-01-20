@@ -348,6 +348,7 @@ p16.edges = [p12, p15]
 
 // main function call
 function dijkstraSearch(origin, destination, layerList) {
+    console.log('dijkstra begin');
 	processedNodes = []
 	// console.log("processedNodes")
 	// console.log(processedNodes)
@@ -363,7 +364,7 @@ function dijkstraSearch(origin, destination, layerList) {
 
 
 	while((currProcessQueue.length != 0) && (currentDepth<maxDepth)) {
-
+        console.log(currentDepth)
 		while(currProcessQueue.length != 0) {
 			currNode = currProcessQueue.pop()
 			checkAdjacentNodes(currNode, processedNodes, nextProcessQueue)
