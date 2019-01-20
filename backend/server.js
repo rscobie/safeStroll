@@ -353,14 +353,16 @@ function dijkstraSearch(origin, destination, layerList) {
 	// console.log(processedNodes)
 
 	origin.distance = 0
-	
+    
+    maxDepth = 1000
+    currentDepth = 0
 
 	var currProcessQueue = [origin]
 	var nextProcessQueue = []
 
 
 
-	while(currProcessQueue.length != 0) {
+	while((currProcessQueue.length != 0) && (currentDepth<maxDepth)) {
 
 		while(currProcessQueue.length != 0) {
 			currNode = currProcessQueue.pop()
@@ -368,7 +370,9 @@ function dijkstraSearch(origin, destination, layerList) {
 		}
 
 		currProcessQueue = nextProcessQueue
-		nextProcessQueue = []
+        nextProcessQueue = []
+        
+        maxDepth++;
 	}
 
 
